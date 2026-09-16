@@ -33,6 +33,7 @@ All Kit API calls happen server-side in the Worker. The API key never reaches th
 - **Cloudflare Worker** (TypeScript) for the `/api/inquiry` endpoint
 - **Kit (ConvertKit) v4** for lead capture (subscriber upsert, custom fields, tags)
 - **Terraform** for the Worker's DNS record and route binding
+- **Framer Motion** for scroll-triggered entrance animation and the FAQ accordion
 - **Vitest** for testing
 
 ## Getting started
@@ -100,6 +101,10 @@ tsconfig.worker.json        Worker TS config (uses @cloudflare/workers-types)
 ## Deployment
 
 Deployed to **Cloudflare Workers** via GitHub Actions on push to `main`. The workflow (`.github/workflows/deploy.yml`) builds the Vite app, deploys the Worker + static assets, and pushes the `KIT_API_KEY` Worker secret in the same step.
+
+### Branch protection
+
+`main` requires `build-and-test`, `secret-scan`, `commit-lint`, and `DCO` to pass before any PR can merge, and blocks direct pushes and force-pushes outright. This is what actually enforces the PR-only workflow `CLAUDE.md` documents, rather than leaving it as an honor system.
 
 ### Required GitHub secrets
 
