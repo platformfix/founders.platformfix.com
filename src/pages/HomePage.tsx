@@ -5,19 +5,19 @@ const PHASES = [
     id: "identify",
     name: "Identify",
     copy:
-      "We start by understanding how your business actually runs today — where time is lost, decisions stall, and manual work piles up. Then we narrow to the handful of opportunities worth building.",
+      "We map where time and money are actually leaking, then narrow to the handful of opportunities worth building.",
   },
   {
     id: "develop",
     name: "Develop",
     copy:
-      "Once priorities are clear, we build — plugged into your existing tools, engineered to hold up under real use, not a fragile demo.",
+      "We build directly into the tools you already use, engineered to hold up under real traffic.",
   },
   {
     id: "adopt",
     name: "Adopt",
     copy:
-      "We work alongside you until the new system is just how things get done, not a project you're left to maintain alone.",
+      "We stay until the new system is simply how your team works, day to day.",
   },
 ];
 
@@ -31,7 +31,7 @@ export function HomePage() {
         </h1>
         <p className="text-lg text-cool-grey mb-10">
           But months later, the tools sit unused, the pilots never scaled, and nobody can
-          say what changed. You don't need another tool — you need someone to build the
+          say what changed. You don't need another tool. You need someone to build the
           <span className="text-gold"> right thing</span> and make it stick.
         </p>
         <Link

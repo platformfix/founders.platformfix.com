@@ -6,6 +6,41 @@ on:
       - main
 
 jobs:
+  secret-scan:
+    name: secret-scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      # Two scans, because they see different things: `git` walks every commit
+      # in history (a secret committed and later deleted still shows up); `dir`
+      # reads the tree as checked out. Mirrors platformfix/prs-dashboard's ci.yml,
+      # including the bug it fixed: a scan that reaches no commits exits 0 and
+      # reads exactly like a clean one, so the step asserts it actually walked
+      # history.
+      - name: Secret scan (git history)
+        run: |
+          set -o pipefail
+          docker run --rm \
+            -e GIT_CONFIG_COUNT=1 \
+            -e GIT_CONFIG_KEY_0=safe.directory \
+            -e GIT_CONFIG_VALUE_0=/repo \
+            -v "${{ github.workspace }}:/repo" \
+            zricethezav/gitleaks:latest git /repo --redact --no-banner --exit-code 1 \
+            2>&1 | tee /tmp/gitleaks-git.log
+          grep -qE '[1-9][0-9]* commits scanned' /tmp/gitleaks-git.log || {
+            echo "::error::gitleaks reported no commits scanned — treating as a failed scan, not a clean one"
+            exit 1
+          }
+
+      - name: Secret scan (working tree)
+        run: |
+          docker run --rm -v "${{ github.workspace }}:/repo" \
+            zricethezav/gitleaks:latest dir /repo --redact --no-banner --exit-code 1
+
   build-and-test:
     name: build-and-test
     runs-on: ubuntu-latest
