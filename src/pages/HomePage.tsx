@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const FAQS = [
   {
@@ -66,6 +68,38 @@ const PHASES = [
   },
 ];
 
+function FaqItem({ question, answer }: { question: string; answer: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="rounded-lg border border-card-border bg-card-slate p-6">
+      <h3 className="font-bold">
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          aria-expanded={open}
+          className="flex w-full items-center justify-between gap-4 text-left"
+        >
+          {question}
+          <span className="text-gold flex-shrink-0 text-xl leading-none">{open ? "−" : "+"}</span>
+        </button>
+      </h3>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <p className="text-cool-grey text-sm mt-4">{answer}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export function HomePage() {
   return (
     <>
@@ -101,14 +135,22 @@ export function HomePage() {
         <h2 className="text-2xl font-bold text-center mb-12">Our work has three parts</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {PHASES.map((phase, i) => (
-            <div key={phase.id} className="rounded-lg border border-card-border bg-card-slate p-6">
+            <motion.div
+              key={phase.id}
+              className="rounded-lg border border-card-border bg-card-slate p-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              whileHover={{ y: -4 }}
+            >
               <span className="text-gold font-bold text-sm">{String(i + 1).padStart(2, "0")}</span>
               <h3 className="text-xl font-bold mt-2 mb-3">{phase.name}</h3>
               <p className="text-cool-grey text-sm mb-4">{phase.copy}</p>
               <Link to={`/services#${phase.id}`} className="text-gold text-sm hover:underline">
                 View service →
               </Link>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -116,11 +158,16 @@ export function HomePage() {
       <section className="max-w-3xl mx-auto px-6 py-20">
         <h2 className="text-2xl font-bold text-center mb-12">Frequently Asked Questions</h2>
         <div className="space-y-6">
-          {FAQS.map((faq) => (
-            <div key={faq.question} className="rounded-lg border border-card-border bg-card-slate p-6">
-              <h3 className="font-bold mb-2">{faq.question}</h3>
-              <p className="text-cool-grey text-sm">{faq.answer}</p>
-            </div>
+          {FAQS.map((faq, i) => (
+            <motion.div
+              key={faq.question}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+            >
+              <FaqItem question={faq.question} answer={faq.answer} />
+            </motion.div>
           ))}
         </div>
         <script

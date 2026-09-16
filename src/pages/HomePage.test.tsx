@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import { HomePage } from "./HomePage";
@@ -40,5 +40,17 @@ describe("HomePage", () => {
     expect(schema.mainEntity.length).toBeGreaterThanOrEqual(5);
     expect(schema.mainEntity[0]).toHaveProperty("@type", "Question");
     expect(schema.mainEntity[0].acceptedAnswer).toHaveProperty("@type", "Answer");
+  });
+
+  it("FAQ answers are collapsed by default and expand on click", () => {
+    render(<HomePage />, { wrapper: BrowserRouter });
+    const question = screen.getByRole("button", { name: /what exactly do you build/i });
+    expect(question).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByText(/we scope it during identify/i)).not.toBeInTheDocument();
+
+    fireEvent.click(question);
+
+    expect(question).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByText(/we scope it during identify/i)).toBeInTheDocument();
   });
 });
