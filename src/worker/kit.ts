@@ -3,11 +3,8 @@
  * fields, and the same idempotent tag mint-or-get pattern
  * newsletter.platformfix.com's src/worker/index.ts uses.
  *
- * CUSTOM FIELD KEYS BELOW ARE PLACEHOLDERS UNTIL TASK 7 RUNS THE CREATE
- * SCRIPT AND CONFIRMS THE REAL KEYS KIT ASSIGNS (Kit derives a field's `key`
- * from its label; do not assume the derivation before verifying it with a
- * GET). Task 7 updates this file's FIELD_KEYS constant with the confirmed
- * values before this code is ever run against the live account.
+ * FIELD_KEYS below are the confirmed live keys, minted/verified 2026-09-16
+ * via scripts/setup-kit.mjs against GET/POST /v4/custom_fields.
  */
 const KIT_BASE = "https://api.kit.com/v4";
 

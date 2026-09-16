@@ -6,9 +6,8 @@
  * against the live Kit account — do not add or rename without re-confirming,
  * since Kit tag deletes do not work (see kit-reference skill).
  *
- * Tag IDs are filled in by Task 7 once minted, mirroring how
- * newsletter.platformfix.com's tags.ts records "Tag IDs minted in Kit on
- * <date>. Verified present via GET /v4/tags."
+ * Tag IDs minted in Kit on 2026-09-16. Verified present via GET /v4/tags
+ * (see scripts/setup-kit.mjs and task-7-report.md).
  */
 export const ROLE_TAGS: Record<string, string> = {
   "ceo-founder": "founders-role-ceo-founder",
