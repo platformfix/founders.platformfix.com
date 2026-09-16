@@ -22,6 +22,12 @@ describe("HomePage", () => {
     expect(screen.getByText("Adopt")).toBeInTheDocument();
   });
 
+  it("renders the Why Platform Fix authority section", () => {
+    render(<HomePage />, { wrapper: BrowserRouter });
+    expect(screen.getByRole("heading", { name: /why platform fix/i })).toBeInTheDocument();
+    expect(screen.getByText(/fifty-plus platform transformations/i)).toBeInTheDocument();
+  });
+
   it("renders the FAQ section with a matching FAQPage JSON-LD schema", () => {
     const { container } = render(<HomePage />, { wrapper: BrowserRouter });
     expect(screen.getByRole("heading", { name: /frequently asked questions/i })).toBeInTheDocument();
