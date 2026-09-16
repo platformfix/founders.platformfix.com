@@ -15,6 +15,32 @@ describe("WorkWithUsPage", () => {
     expect(textarea).toBeRequired();
   });
 
+  it("requires company website before submit", () => {
+    render(<WorkWithUsPage />, { wrapper: BrowserRouter });
+    expect(screen.getByLabelText(/company website/i)).toBeRequired();
+  });
+
+  it("blocks submission and shows an error when no budget range is selected", async () => {
+    render(<WorkWithUsPage />, { wrapper: BrowserRouter });
+    fireEvent.change(screen.getByLabelText(/first name/i), { target: { value: "Ada" } });
+    fireEvent.change(screen.getByLabelText(/last name/i), { target: { value: "Lovelace" } });
+    fireEvent.change(screen.getByLabelText(/work email/i), { target: { value: "ada@example.com" } });
+    fireEvent.change(screen.getByLabelText(/^company$/i), { target: { value: "Analytical Engines Ltd" } });
+    fireEvent.change(screen.getByLabelText(/company website/i), { target: { value: "https://example.com" } });
+    fireEvent.change(screen.getByLabelText(/your role/i), { target: { value: "ceo-founder" } });
+    fireEvent.change(screen.getByLabelText(/company size/i), { target: { value: "1-50" } });
+    fireEvent.change(screen.getByLabelText(/tell us about your project/i), {
+      target: { value: "We need help." },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /submit inquiry/i }));
+
+    expect(await screen.findByText(/please select a budget range/i)).toBeInTheDocument();
+    expect(inquiry.submitInquiry).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole("button", { name: "$15K - $50K" }));
+    expect(screen.queryByText(/please select a budget range/i)).not.toBeInTheDocument();
+  });
+
   it("submits all fields including the selected budget range", async () => {
     render(<WorkWithUsPage />, { wrapper: BrowserRouter });
     fireEvent.change(screen.getByLabelText(/first name/i), { target: { value: "Ada" } });
