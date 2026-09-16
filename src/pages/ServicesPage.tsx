@@ -4,10 +4,10 @@ const PHASES = [
     name: "Identify",
     tagline: "Decide what's actually worth building",
     copy:
-      "Before anything gets built, we get aligned on how your business runs today — where time is lost, decisions stall, and effort piles up — then narrow to the handful of opportunities worth building.",
+      "This phase runs as structured conversations with the people doing the actual work, cross-checked against how requests really move through your systems. It ends with a ranked list of opportunities, ordered by impact and effort.",
     items: [
       ["Founder Alignment Sessions", "Get clear on priorities, constraints, and what success actually looks like."],
-      ["Operational Walkthroughs", "See where the work really happens, not where the org chart says it happens."],
+      ["Operational Walkthroughs", "See where the work really happens."],
       ["ROI Modelling", "Pressure-test an idea before committing budget to it."],
       ["Prioritisation Mapping", "Rank opportunities by impact and effort so it's obvious where to start."],
       ["AI Readiness Review", "A clear view of what's ready now, what needs work, and what should wait."],
@@ -18,10 +18,10 @@ const PHASES = [
     name: "Develop",
     tagline: "Build it right so it works from day one",
     copy:
-      "Once priorities are clear, we move into building — plugged into your existing tools and workflows, engineered for reliability rather than a fragile demo.",
+      "This is the build phase. Every system ships wired directly into your existing stack and gets tested against real usage patterns before your team ever sees it.",
     items: [
-      ["Scoping & Architecture", "Turn priorities into a build plan — scope, data flows, and success criteria upfront."],
-      ["Systems Integration", "Fit the build into how work already happens, not a bolt-on tool."],
+      ["Scoping & Architecture", "Turn priorities into a build plan: scope, data flows, and success criteria upfront."],
+      ["Systems Integration", "Fit the build into how work already happens."],
       ["Proof of Concept → Production", "Build fast, test in real use, then harden what works."],
       ["Reliability & Guardrails", "Access controls and monitoring so the system is safe and dependable."],
       ["Performance Tuning", "Improve accuracy, speed, and cost before rolling out broadly."],
@@ -32,7 +32,7 @@ const PHASES = [
     name: "Adopt",
     tagline: "Make it part of how work actually gets done",
     copy:
-      "Shipping isn't the finish line — adoption is. We work alongside your team until the system is trusted and used daily, not handed off and forgotten.",
+      "Shipping isn't the finish line. Adoption is. We work alongside your team until the system is trusted and used every day.",
     items: [
       ["Controlled Rollout", "Introduce the system deliberately, gather feedback, refine before scaling."],
       ["Hands-On Enablement", "Practical training so the team knows when and how to use what's built."],

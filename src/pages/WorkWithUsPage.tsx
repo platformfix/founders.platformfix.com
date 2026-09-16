@@ -63,7 +63,7 @@ export function WorkWithUsPage() {
   if (status === "done") {
     return (
       <div className="max-w-2xl mx-auto px-6 py-24 text-center">
-        <h1 className="text-2xl font-bold mb-4">Thanks — we've got it.</h1>
+        <h1 className="text-2xl font-bold mb-4">Thanks. We've got it.</h1>
         <p className="text-cool-grey">We'll be in touch shortly.</p>
       </div>
     );
@@ -75,9 +75,8 @@ export function WorkWithUsPage() {
         <p className="text-sm uppercase tracking-widest text-gold mb-4">Work With Us</p>
         <h1 className="text-4xl font-bold mb-6">Ready to transform your business with AI?</h1>
         <p className="text-cool-grey mb-10">
-          We help founders unlock real operational efficiency by identifying where AI and
-          software can drive measurable impact, then building and implementing those
-          solutions end-to-end. Tell us what you're working on.
+          We find where AI and software can cut real time and cost out of your business,
+          then build and ship it ourselves, start to finish. Tell us what you're working on.
         </p>
         <dl className="space-y-4 text-sm">
           <div>
@@ -181,7 +180,7 @@ export function WorkWithUsPage() {
           {status === "submitting" ? "Submitting…" : "Submit Inquiry"}
         </Button>
         {status === "error" && (
-          <p className="text-sm text-red-400">Something went wrong — please try again.</p>
+          <p className="text-sm text-red-400">Something went wrong. Please try again.</p>
         )}
       </form>
     </div>
