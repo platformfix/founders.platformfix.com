@@ -7,3 +7,21 @@ body {
   color: #F0EFE8;
   font-family: "Inter", sans-serif;
 }
+
+/*
+ * Background treatment (dark surfaces), per platformfix/design-system's
+ * brand-core.md "Optional Inspiration" section: a subtle three-stop
+ * dark-navy gradient, a faint dot-grid texture, and a soft radial
+ * vignette — depth without clutter. Layered as: vignette (top), dot-grid
+ * (middle), base gradient (bottom).
+ */
+.bg-brand-gradient {
+  background-color: #0A0F1C;
+  background-image:
+    radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.35) 100%),
+    radial-gradient(circle, rgba(240, 239, 232, 0.04) 1px, transparent 1.5px),
+    linear-gradient(180deg, #0A0F1C 0%, #0C1122 50%, #0E1428 100%);
+  background-size: 100% 100%, 24px 24px, 100% 100%;
+  background-repeat: no-repeat, repeat, no-repeat;
+  background-attachment: fixed, fixed, fixed;
+}

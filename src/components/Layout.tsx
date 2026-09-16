@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 
 export function Layout() {
   return (
-    <div className="min-h-screen bg-navy text-off-white flex flex-col">
+    <div className="min-h-screen bg-brand-gradient text-off-white flex flex-col">
       <header className="border-b border-card-border">
         <nav className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
           <Link to="/" className="text-lg font-bold">
