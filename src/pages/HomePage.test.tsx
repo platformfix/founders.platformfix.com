@@ -21,4 +21,18 @@ describe("HomePage", () => {
     expect(screen.getByText("Develop")).toBeInTheDocument();
     expect(screen.getByText("Adopt")).toBeInTheDocument();
   });
+
+  it("renders the FAQ section with a matching FAQPage JSON-LD schema", () => {
+    const { container } = render(<HomePage />, { wrapper: BrowserRouter });
+    expect(screen.getByRole("heading", { name: /frequently asked questions/i })).toBeInTheDocument();
+    expect(screen.getByText("What exactly do you build?")).toBeInTheDocument();
+
+    const schemaScript = container.querySelector('script[type="application/ld+json"]');
+    expect(schemaScript).not.toBeNull();
+    const schema = JSON.parse(schemaScript!.innerHTML);
+    expect(schema["@type"]).toBe("FAQPage");
+    expect(schema.mainEntity.length).toBeGreaterThanOrEqual(5);
+    expect(schema.mainEntity[0]).toHaveProperty("@type", "Question");
+    expect(schema.mainEntity[0].acceptedAnswer).toHaveProperty("@type", "Answer");
+  });
 });
