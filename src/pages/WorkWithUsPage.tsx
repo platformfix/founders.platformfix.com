@@ -62,15 +62,18 @@ export function WorkWithUsPage() {
 
   if (status === "done") {
     return (
-      <div className="max-w-2xl mx-auto px-6 py-24 text-center">
-        <h1 className="text-2xl font-bold mb-4">Thanks. We've got it.</h1>
-        <p className="text-cool-grey">We'll be in touch shortly.</p>
+      <div className="min-h-screen bg-navy text-off-white flex items-center justify-center">
+        <div className="max-w-2xl mx-auto px-6 py-24 text-center">
+          <h1 className="text-2xl font-bold mb-4">Thanks. We've got it.</h1>
+          <p className="text-cool-grey">We'll be in touch shortly.</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-16">
+    <div className="min-h-screen bg-navy text-off-white">
+      <div className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-16">
       <div>
         <p className="text-sm uppercase tracking-widest text-gold mb-4">Work With Us</p>
         <h1 className="text-4xl font-bold mb-6">Ready to transform your business with AI?</h1>
@@ -183,6 +186,7 @@ export function WorkWithUsPage() {
           <p className="text-sm text-red-400">Something went wrong. Please try again.</p>
         )}
       </form>
+      </div>
     </div>
   );
 }

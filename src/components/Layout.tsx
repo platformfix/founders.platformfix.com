@@ -23,9 +23,8 @@ export function Layout() {
         <Outlet />
       </main>
       <footer className="border-t border-card-border">
-        <div className="max-w-6xl mx-auto px-6 py-8 text-sm text-cool-grey flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-6 py-8 text-sm text-cool-grey">
           <span>© {new Date().getFullYear()} Platform Fix</span>
-          <a href="https://platformfix.com" className="hover:text-gold">platformfix.com</a>
         </div>
       </footer>
     </div>
