@@ -1,0 +1,5 @@
+# For local runs only — terraform.tfvars is gitignored. Fetch the real value with:
+#   OP_SERVICE_ACCOUNT_TOKEN="$OP_CLAUDE_SA_TOKEN" op read "op://Claude Code/cloudflare-founders-deploy/credential"
+# In CI, TF_VAR_cloudflare_api_token is loaded from 1Password directly — see
+# .github/workflows/terraform.yml — so this file is never needed there.
+cloudflare_api_token = "REPLACE_WITH_TOKEN_FROM_1PASSWORD"

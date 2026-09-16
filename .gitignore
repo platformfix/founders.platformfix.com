@@ -3,3 +3,11 @@ dist/
 .wrangler/
 *.local
 .DS_Store
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl.backup
+terraform.tfvars
+crash.log

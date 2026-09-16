@@ -2,9 +2,13 @@ name = "founders-platformfix-com"
 main = "src/worker/index.ts"
 compatibility_date = "2026-09-16"
 
-routes = [
-  { pattern = "founders.platformfix.com/*", zone_name = "platformfix.com" }
-]
+# No `routes` entry here deliberately. The hostname binding for
+# founders.platformfix.com is entirely Terraform-managed
+# (terraform/main.tf's cloudflare_workers_route resource). Declaring a
+# route here too via wrangler.toml would fight Terraform over ownership of
+# the same resource. Deploy order therefore matters: `wrangler deploy` must
+# run at least once (creating this Worker script) before `terraform apply`
+# can bind the hostname to it — see terraform/main.tf's comment.
 
 [assets]
 directory = "./dist"

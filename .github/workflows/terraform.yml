@@ -1,0 +1,205 @@
+name: Terraform
+
+# PR-driven Terraform, Atlantis-style, mirroring platformfix/prs-dashboard and
+# platformfix/tf-atuin-sync:
+#   1. Open a PR touching terraform/**    → `plan` runs automatically and comments the plan.
+#   2. Review, then comment `/apply` on the PR (only owner/members/collaborators).
+#   3. `apply` runs terraform apply on the PR branch and, on success, merges it.
+#
+# Credentials resolve from 1Password at runtime via the OP_SERVICE_ACCOUNT_TOKEN secret;
+# state locking is the R2 backend's own lockfile.
+
+on:
+  pull_request:
+    branches: ["main"]
+    types: [opened, synchronize, reopened]
+    paths:
+      - "terraform/**"
+
+  issue_comment:
+    types: [created]
+
+concurrency:
+  group: terraform-${{ github.event.issue.number || github.event.pull_request.number }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+defaults:
+  run:
+    working-directory: terraform
+
+jobs:
+  plan:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Load credentials from 1Password
+        uses: 1password/load-secrets-action@70062d7a876d3eb6334754fa26efd2fbd90c32f2 # v5.0.1
+        with:
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          TF_VAR_cloudflare_api_token: op://Claude Code/cloudflare-founders-deploy/credential
+          # R2 S3-compatible backend credentials for the shared workshop-platformfix-com
+          # state bucket — same item platformfix/prs-dashboard and platformfix/tf-atuin-sync
+          # use for the same bucket.
+          AWS_ACCESS_KEY_ID: op://Claude Code/workshop-r2/access_key_id
+          AWS_SECRET_ACCESS_KEY: op://Claude Code/workshop-r2/secret_access_key
+
+      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_version: 1.15.8
+          terraform_wrapper: false
+
+      - run: terraform init -input=false
+
+      - name: Terraform plan
+        id: plan
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          terraform plan -input=false -no-color 2>&1 | tee plan.txt
+
+      - name: Summarise the plan
+        run: |
+          {
+            grep -E '^Plan:|^No changes|^Error' plan.txt || echo 'Plan: (see resource changes below)'
+            echo
+            echo 'Resource changes:'
+            grep -E '^[[:space:]]+# [^[:space:]]+ (will|must) be ' plan.txt || echo '  (none)'
+          } > summary.txt
+          {
+            echo '### Terraform plan'
+            echo '```'
+            head -c 900000 plan.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment plan summary on the PR
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          PLAN_OUTCOME: ${{ steps.plan.outcome }}
+        with:
+          script: |
+            const fs = require('fs');
+            const failed = process.env.PLAN_OUTCOME === 'failure';
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const footer = failed
+              ? `\n\n**Do not apply.** Fix the error above and push again. [Full output](${runUrl}).`
+              : `\n\n_[Full plan is in the run summary](${runUrl}). Review, then comment \`/apply\` to run \`terraform apply\` and merge this PR._`;
+            let summary = fs.readFileSync('terraform/summary.txt', 'utf8');
+            const budget = 60000 - footer.length - 120;
+            if (summary.length > budget) {
+              summary = summary.slice(0, budget) + '\n... (truncated — see the full plan in the run) ...';
+            }
+            const body = [
+              failed ? '#### ❌ Terraform Plan FAILED' : '#### Terraform Plan 📖',
+              '<details><summary>Changed-resource summary</summary>',
+              '',
+              '```',
+              summary,
+              '```',
+              '</details>',
+              footer,
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body,
+            });
+
+      - name: Fail the job if the plan failed
+        if: steps.plan.outcome == 'failure'
+        run: |
+          echo "::error::terraform plan failed — see the plan comment on the PR and the full run log"
+          exit 1
+
+  apply:
+    if: >
+      github.event_name == 'issue_comment' &&
+      github.event.issue.pull_request &&
+      (github.event.comment.author_association == 'OWNER' ||
+       github.event.comment.author_association == 'MEMBER' ||
+       github.event.comment.author_association == 'COLLABORATOR')
+    # The actual "/apply" text check is a real shell step, not an expression condition —
+    # GitHub Actions expression strings do not support \n as a newline escape, so an
+    # expression-only "does /apply start a line" check is not reliably expressible here.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for a standalone /apply line
+        id: check_apply
+        working-directory: .
+        env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
+        run: |
+          if printf '%s\n' "$COMMENT_BODY" | grep -qxF '/apply'; then
+            echo "should_apply=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_apply=false" >> "$GITHUB_OUTPUT"
+            echo "Comment has no standalone '/apply' line — nothing to do."
+          fi
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: steps.check_apply.outputs.should_apply == 'true'
+
+      - name: Check out the PR branch
+        if: steps.check_apply.outputs.should_apply == 'true'
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr checkout ${{ github.event.issue.number }}
+
+      - name: Comment — apply started
+        if: steps.check_apply.outputs.should_apply == 'true'
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: gh pr comment ${{ github.event.issue.number }} --body "🚀 Running \`terraform apply\` — [live run]($RUN_URL)."
+
+      - name: Load credentials from 1Password
+        if: steps.check_apply.outputs.should_apply == 'true'
+        uses: 1password/load-secrets-action@70062d7a876d3eb6334754fa26efd2fbd90c32f2 # v5.0.1
+        with:
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          TF_VAR_cloudflare_api_token: op://Claude Code/cloudflare-founders-deploy/credential
+          AWS_ACCESS_KEY_ID: op://Claude Code/workshop-r2/access_key_id
+          AWS_SECRET_ACCESS_KEY: op://Claude Code/workshop-r2/secret_access_key
+
+      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        if: steps.check_apply.outputs.should_apply == 'true'
+        with:
+          terraform_version: 1.15.8
+          terraform_wrapper: false
+
+      - run: terraform init -input=false
+        if: steps.check_apply.outputs.should_apply == 'true'
+
+      - name: Terraform apply
+        if: steps.check_apply.outputs.should_apply == 'true'
+        run: terraform apply -input=false -auto-approve
+
+      - name: Comment + merge on success
+        if: steps.check_apply.outputs.should_apply == 'true'
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.issue.number }} --body "✅ \`terraform apply\` succeeded — merging."
+          gh pr merge ${{ github.event.issue.number }} --squash --delete-branch
+
+      - name: Comment — apply failed
+        if: steps.check_apply.outputs.should_apply == 'true' && failure()
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: gh pr comment ${{ github.event.issue.number }} --body "❌ \`terraform apply\` failed — see the [run]($RUN_URL). The PR was not merged."
