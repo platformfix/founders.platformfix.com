@@ -1,5 +1,50 @@
 import { Link } from "react-router-dom";
 
+const FAQS = [
+  {
+    question: "What exactly do you build?",
+    answer:
+      "Whatever produces the biggest result for your specific business: a centralised system for your data, a first automation that removes a repeated manual task, or a working AI agent. We scope it during Identify, then build it during Develop.",
+  },
+  {
+    question: "How is this different from hiring a developer or an agency?",
+    answer:
+      "We bring platform-engineering discipline, the same reliability and security standards used at enterprise scale, to a build that's usually vibe-coded or half-finished. You get one person who scopes, builds, and stays until it's adopted.",
+  },
+  {
+    question: "What does it cost?",
+    answer:
+      "It depends on scope. Tell us what you're working on on the work-with-us form and we'll come back with a fixed project cost, not an hourly guess.",
+  },
+  {
+    question: "How fast can we start?",
+    answer:
+      "We start with a short call to understand where your time and money are actually leaking, usually within a week of you reaching out.",
+  },
+  {
+    question: "Do I need any technical background?",
+    answer: "No. That's the point of hiring us. You know your business; we handle the engineering.",
+  },
+  {
+    question: "Who is this for?",
+    answer:
+      "Founders and small teams who don't have an in-house developer or AI team, and don't want to hire one just to get started.",
+  },
+];
+
+const FAQ_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
+
 const PHASES = [
   {
     id: "identify",
@@ -56,6 +101,22 @@ export function HomePage() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="max-w-3xl mx-auto px-6 py-20">
+        <h2 className="text-2xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+        <div className="space-y-6">
+          {FAQS.map((faq) => (
+            <div key={faq.question} className="rounded-lg border border-card-border bg-card-slate p-6">
+              <h3 className="font-bold mb-2">{faq.question}</h3>
+              <p className="text-cool-grey text-sm">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA) }}
+        />
       </section>
 
       <section className="max-w-3xl mx-auto px-6 py-20 text-center">
