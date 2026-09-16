@@ -1,3 +1,6 @@
+# Provenance: built in AgenC mission bc46b112-54fe-4aec-8ca6-3d76edc834fd,
+# tracked by bead pf-sb-5dq in platformfix/second-brain.
+#
 # ORDERING: `cloudflare_workers_route.founders` below references an
 # already-deployed Worker script by name — so the first `wrangler deploy`
 # (via CI, on the first push to main) must happen before `terraform apply`
