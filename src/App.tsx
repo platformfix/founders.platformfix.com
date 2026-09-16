@@ -11,8 +11,11 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="services" element={<ServicesPage />} />
-          <Route path="work-with-us" element={<WorkWithUsPage />} />
         </Route>
+        {/* Deliberately outside <Layout> — no header nav, no footer. The
+            work-with-us form is the conversion page; every distraction that
+            could lead someone away from submitting it is removed. */}
+        <Route path="work-with-us" element={<WorkWithUsPage />} />
       </Routes>
     </BrowserRouter>
   );
