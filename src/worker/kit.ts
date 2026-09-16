@@ -32,7 +32,10 @@ export async function upsertSubscriber(
     headers: { "Content-Type": "application/json", "X-Kit-Api-Key": env.apiKey },
     body: JSON.stringify({ email_address: email, first_name: firstName, fields }),
   });
-  if (!res.ok) return null;
+  if (!res.ok) {
+    console.error("Kit upsert subscriber failed", await safeErrorPayload(res));
+    return null;
+  }
   const data = (await res.json()) as { subscriber?: { id?: number } };
   return data.subscriber?.id ?? null;
 }
@@ -44,7 +47,10 @@ export async function upsertTag(name: string, apiKey: string): Promise<number | 
     headers: { "Content-Type": "application/json", "X-Kit-Api-Key": apiKey },
     body: JSON.stringify({ name }),
   });
-  if (!res.ok) return null;
+  if (!res.ok) {
+    console.error(`Kit tag upsert failed for ${name}`, await safeErrorPayload(res));
+    return null;
+  }
   const data = (await res.json()) as { tag?: { id?: number } };
   return data.tag?.id ?? null;
 }
@@ -54,5 +60,27 @@ export async function applyTag(tagId: number, subscriberId: number, apiKey: stri
     method: "POST",
     headers: { "Content-Type": "application/json", "X-Kit-Api-Key": apiKey },
   });
+  if (!res.ok) {
+    console.error(`Kit tag ${tagId} apply failed for subscriber ${subscriberId}`, await safeErrorPayload(res));
+  }
   return res.ok;
+}
+
+/** Strips email addresses out of a string before it reaches the log, matching newsletter.platformfix.com's redactEmails discipline. */
+function redactEmails(s: string): string {
+  return s.replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g, "[email]");
+}
+
+/** Reads a failed Kit response's error payload for logging, redacting any email it echoes back. Never throws on a non-JSON body. */
+async function safeErrorPayload(response: Response): Promise<{ status: number; errors?: string[] }> {
+  try {
+    const data = (await response.json()) as { errors?: unknown };
+    if (Array.isArray(data.errors)) {
+      const errors = data.errors.filter((e): e is string => typeof e === "string").map(redactEmails);
+      return { status: response.status, errors };
+    }
+  } catch {
+    // body wasn't JSON; status code alone
+  }
+  return { status: response.status };
 }
