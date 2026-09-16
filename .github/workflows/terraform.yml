@@ -39,7 +39,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Load credentials from 1Password
-        uses: 1password/load-secrets-action@24a7d5bdc04e9e8699efdaee16fa227e14d597eb # v5.0.1
+        uses: 1password/load-secrets-action@70062d7a876d3eb6334754fa26efd2fbd90c32f2 # v5.0.1
         with:
           export-env: true
         env:
@@ -165,7 +165,7 @@ jobs:
 
       - name: Load credentials from 1Password
         if: steps.check_apply.outputs.should_apply == 'true'
-        uses: 1password/load-secrets-action@24a7d5bdc04e9e8699efdaee16fa227e14d597eb # v5.0.1
+        uses: 1password/load-secrets-action@70062d7a876d3eb6334754fa26efd2fbd90c32f2 # v5.0.1
         with:
           export-env: true
         env:
