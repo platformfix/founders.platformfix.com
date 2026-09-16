@@ -87,6 +87,16 @@ export function HomePage() {
         </Link>
       </section>
 
+      <section className="max-w-3xl mx-auto px-6 py-16 text-center border-y border-card-border">
+        <h2 className="text-2xl font-bold mb-4">Why Platform Fix</h2>
+        <p className="text-cool-grey">
+          Platform Fix is run by Steve Wade: fifteen years in production infrastructure,
+          fifty-plus platform transformations from Series B to FTSE 250, former Flux
+          maintainer. The average audit recovers about £276,000 a year, just by deleting
+          what nobody needed.
+        </p>
+      </section>
+
       <section className="max-w-5xl mx-auto px-6 py-20">
         <h2 className="text-2xl font-bold text-center mb-12">Our work has three parts</h2>
         <div className="grid md:grid-cols-3 gap-8">
