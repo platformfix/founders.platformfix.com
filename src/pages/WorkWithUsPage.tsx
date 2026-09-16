@@ -44,13 +44,19 @@ const EMPTY: InquiryPayload = {
 export function WorkWithUsPage() {
   const [form, setForm] = useState<InquiryPayload>(EMPTY);
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
+  const [budgetError, setBudgetError] = useState(false);
 
   function set<K extends keyof InquiryPayload>(key: K, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
+    if (key === "budget_range" && value) setBudgetError(false);
   }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
+    if (!form.budget_range) {
+      setBudgetError(true);
+      return;
+    }
     setStatus("submitting");
     try {
       await submitInquiry(form);
@@ -124,6 +130,7 @@ export function WorkWithUsPage() {
           <Input
             id="company_website"
             type="url"
+            required
             placeholder="https://yourcompany.com"
             value={form.company_website}
             onChange={(e) => set("company_website", e.target.value)}
@@ -166,6 +173,9 @@ export function WorkWithUsPage() {
               </Button>
             ))}
           </div>
+          {budgetError && (
+            <p className="text-sm text-red-400 mt-2">Please select a budget range.</p>
+          )}
         </div>
 
         <div>
