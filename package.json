@@ -45,10 +45,5 @@
     "esbuild@0.28.1": true,
     "fsevents@2.3.3": true,
     "workerd@1.20260915.1": true
-  },
-  "overrides": {
-    "miniflare": {
-      "undici": "7.29.1"
-    }
   }
 }
