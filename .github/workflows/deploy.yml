@@ -16,6 +16,13 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Use npm 11
+        # npm 10 (bundled with Node 22) rejects the miniflare > undici override
+        # in package.json during `npm ci`; npm 11 honours it. Remove this step
+        # together with the override once miniflare depends on undici >= 7.29.1
+        # (GHSA-3wwx-pv8p-q78v).
+        run: npm install -g npm@11
+
       - name: Install dependencies
         run: npm ci
 
