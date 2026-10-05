@@ -1,56 +1,38 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import { HomePage } from "./HomePage";
+import { APPLY_FORM_URL } from "../lib/apply";
 
-describe("HomePage", () => {
-  it("renders CTAs linking to work-with-us", () => {
+describe("HomePage (landing page)", () => {
+  it("has exactly one apply button, opening the form in a new tab", () => {
     render(<HomePage />, { wrapper: BrowserRouter });
-    // The page has two "Get in touch" CTAs (hero + closing section) by design —
-    // use getAllByRole, not getByRole, or this throws on the duplicate match.
-    const ctas = screen.getAllByRole("link", { name: /get in touch/i });
-    expect(ctas.length).toBeGreaterThanOrEqual(1);
-    for (const cta of ctas) {
-      expect(cta).toHaveAttribute("href", "/work-with-us");
-    }
+    const ctas = screen.getAllByRole("link", { name: /apply for a makeover/i });
+    expect(ctas).toHaveLength(1);
+    expect(ctas[0]).toHaveAttribute("href", APPLY_FORM_URL);
+    expect(ctas[0]).toHaveAttribute("target", "_blank");
+    expect(ctas[0]).toHaveAttribute("rel", expect.stringContaining("noopener"));
   });
 
-  it("renders all three phase names", () => {
+  it("offers only two other links, to the method and the about page", () => {
     render(<HomePage />, { wrapper: BrowserRouter });
-    expect(screen.getByText("Identify")).toBeInTheDocument();
-    expect(screen.getByText("Develop")).toBeInTheDocument();
-    expect(screen.getByText("Adopt")).toBeInTheDocument();
+    const links = screen.getAllByRole("link");
+    expect(links).toHaveLength(3);
+    expect(screen.getByRole("link", { name: "The Method - How We Do It" })).toHaveAttribute("href", "/method");
+    expect(screen.getByRole("link", { name: "The Host - About Steve" })).toHaveAttribute("href", "/about");
   });
 
-  it("renders the Why Platform Fix authority section", () => {
+  it("leads with the question and the seven-day offer", () => {
     render(<HomePage />, { wrapper: BrowserRouter });
-    expect(screen.getByRole("heading", { name: /why platform fix/i })).toBeInTheDocument();
-    expect(screen.getByText(/fifty-plus platform transformations/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 1, name: /who have you gone quiet on, and what is it worth/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/i spend seven days in your business/i)).toBeInTheDocument();
+    expect(screen.getByText(/applying costs nothing and commits you to nothing/i)).toBeInTheDocument();
   });
 
-  it("renders the FAQ section with a matching FAQPage JSON-LD schema", () => {
-    const { container } = render(<HomePage />, { wrapper: BrowserRouter });
-    expect(screen.getByRole("heading", { name: /frequently asked questions/i })).toBeInTheDocument();
-    expect(screen.getByText("What exactly do you build?")).toBeInTheDocument();
-
-    const schemaScript = container.querySelector('script[type="application/ld+json"]');
-    expect(schemaScript).not.toBeNull();
-    const schema = JSON.parse(schemaScript!.innerHTML);
-    expect(schema["@type"]).toBe("FAQPage");
-    expect(schema.mainEntity.length).toBeGreaterThanOrEqual(5);
-    expect(schema.mainEntity[0]).toHaveProperty("@type", "Question");
-    expect(schema.mainEntity[0].acceptedAnswer).toHaveProperty("@type", "Answer");
-  });
-
-  it("FAQ answers are collapsed by default and expand on click", () => {
+  it("says plainly that there are no founder case studies yet", () => {
     render(<HomePage />, { wrapper: BrowserRouter });
-    const question = screen.getByRole("button", { name: /what exactly do you build/i });
-    expect(question).toHaveAttribute("aria-expanded", "false");
-    expect(screen.queryByText(/we scope it during identify/i)).not.toBeInTheDocument();
-
-    fireEvent.click(question);
-
-    expect(question).toHaveAttribute("aria-expanded", "true");
-    expect(screen.getByText(/we scope it during identify/i)).toBeInTheDocument();
+    expect(screen.getByText(/i have no founder case studies yet/i)).toBeInTheDocument();
   });
 });

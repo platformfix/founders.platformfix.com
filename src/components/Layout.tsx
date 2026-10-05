@@ -1,4 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
+import { ApplyLink } from "./ApplyLink";
+import { OFFER_NAME } from "../lib/apply";
 
 export function Layout() {
   return (
@@ -6,16 +8,12 @@ export function Layout() {
       <header className="border-b border-card-border">
         <nav className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
           <Link to="/" className="text-lg font-bold">
-            Platform Fix <span className="text-gold">for Founders</span>
+            {OFFER_NAME}<span className="hidden text-gold sm:inline"> by Platform Fix</span>
           </Link>
           <div className="flex items-center gap-6 text-sm">
-            <Link to="/services" className="hover:text-gold">Services</Link>
-            <Link
-              to="/work-with-us"
-              className="rounded-md bg-gold px-4 py-2 text-navy font-medium hover:opacity-90"
-            >
-              Work With Us
-            </Link>
+            <Link to="/method" className="hover:text-gold">Method</Link>
+            <Link to="/about" className="hover:text-gold">About</Link>
+            <ApplyLink size="sm" />
           </div>
         </nav>
       </header>
