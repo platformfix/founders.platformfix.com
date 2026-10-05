@@ -50,3 +50,24 @@ describe("MethodPage", () => {
     expect(screen.getByText(/i do not publish prices/i)).toBeInTheDocument();
   });
 });
+
+describe("MethodPage visuals", () => {
+  it("shows one example visual per day, each labelled as an example", () => {
+    render(<MethodPage />, { wrapper: BrowserRouter });
+    expect(screen.getAllByText(/example\. not real data\./i)).toHaveLength(7);
+  });
+
+  it("gives the day-two plot an accessible description", () => {
+    render(<MethodPage />, { wrapper: BrowserRouter });
+    expect(screen.getByRole("img", { name: /plot of effort against value/i })).toBeInTheDocument();
+  });
+
+  it("carries no numbers in the visuals, so no result is implied", () => {
+    const { container } = render(<MethodPage />, { wrapper: BrowserRouter });
+    const figures = Array.from(container.querySelectorAll("figure"));
+    expect(figures).toHaveLength(7);
+    for (const f of figures) {
+      expect(f.textContent ?? "").not.toMatch(/\d/);
+    }
+  });
+});

@@ -1,14 +1,23 @@
 import { ApplyLink } from "../components/ApplyLink";
 import { FaqItem } from "../components/FaqItem";
+import {
+  AskVisual,
+  MonthlyCheckVisual,
+  OneDatabaseVisual,
+  PriorityPlot,
+  QuietLeadsVisual,
+  RecordVisual,
+  SourcesVisual,
+} from "../components/MethodVisuals";
 
 const DAYS = [
-  ["Day 1. Audit.", "We map where every lead and promise lives today."],
-  ["Day 2. Decide.", "We choose the first problem to fix. We write down where it stands today."],
-  ["Day 3. One place.", "Your data moves into one database in your own account."],
-  ["Day 4. The record.", "Every piece of work done on it gets logged. You get an admin screen to see it."],
-  ["Day 5. The first automation.", "I build it to find the leads that have gone quiet and draft the follow-up."],
-  ["Day 6. The assistant.", "An assistant works from your data. Your team learns to ask it."],
-  ["Day 7. Handover.", "You run it. I show you what to check each month."],
+  { n: 1, title: "Audit.", copy: "We map where every lead and promise lives today.", Visual: SourcesVisual },
+  { n: 2, title: "Decide.", copy: "We choose the first problem to fix. We write down where it stands today.", Visual: PriorityPlot },
+  { n: 3, title: "One place.", copy: "Your data moves into one database in your own account.", Visual: OneDatabaseVisual },
+  { n: 4, title: "The record.", copy: "Every piece of work done on it gets logged. You get an admin screen to see it.", Visual: RecordVisual },
+  { n: 5, title: "The first automation.", copy: "I build it to find the leads that have gone quiet and draft the follow-up.", Visual: QuietLeadsVisual },
+  { n: 6, title: "The assistant.", copy: "An assistant works from your data. Your team learns to ask it.", Visual: AskVisual },
+  { n: 7, title: "Handover.", copy: "You run it. I show you what to check each month.", Visual: MonthlyCheckVisual },
 ];
 
 const FAQS = [
@@ -60,11 +69,18 @@ export function MethodPage() {
         </div>
       </section>
 
-      <section className="max-w-3xl mx-auto px-6 py-16 space-y-6">
-        {DAYS.map(([name, copy]) => (
-          <div key={name} className="rounded-lg border border-card-border bg-card-slate p-6">
-            <h2 className="text-xl font-bold mb-2">{name}</h2>
-            <p className="text-cool-grey text-sm">{copy}</p>
+      <section className="max-w-5xl mx-auto px-6 py-16 space-y-24">
+        {DAYS.map(({ n, title, copy, Visual }, i) => (
+          <div key={n} className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
+            <div className={i % 2 ? "md:order-2" : ""}>
+              <h2 className="mb-4 text-3xl font-bold">
+                <span className="text-gold">Day {n}.</span> {title}
+              </h2>
+              <p className="text-lg text-cool-grey">{copy}</p>
+            </div>
+            <div className={i % 2 ? "md:order-1" : ""}>
+              <Visual />
+            </div>
           </div>
         ))}
       </section>

@@ -8,7 +8,7 @@ export function Layout() {
       <header className="border-b border-card-border">
         <nav className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
           <Link to="/" className="text-lg font-bold">
-            {OFFER_NAME} <span className="text-gold">by Platform Fix</span>
+            {OFFER_NAME}<span className="hidden text-gold sm:inline"> by Platform Fix</span>
           </Link>
           <div className="flex items-center gap-6 text-sm">
             <Link to="/method" className="hover:text-gold">Method</Link>
