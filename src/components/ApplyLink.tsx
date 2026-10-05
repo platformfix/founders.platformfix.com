@@ -1,4 +1,4 @@
-import { APPLY_FORM_URL } from "../lib/apply";
+import { APPLY_FORM_URL, APPLY_LABEL } from "../lib/apply";
 
 const BASE = "inline-flex items-center justify-center gap-2 rounded-md bg-gold font-medium text-navy hover:opacity-90";
 
@@ -7,7 +7,7 @@ export function ApplyLink({ size = "lg" }: { size?: "lg" | "sm" }) {
   const sizing = size === "lg" ? "px-6 py-3" : "px-4 py-2";
   return (
     <a href={APPLY_FORM_URL} target="_blank" rel="noopener noreferrer" className={`${BASE} ${sizing}`}>
-      Apply for a makeover
+      {APPLY_LABEL}
     </a>
   );
 }

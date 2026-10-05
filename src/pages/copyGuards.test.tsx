@@ -25,5 +25,9 @@ describe.each(PAGES)("%s page copy guards", (_name, Page) => {
 
   it("does not borrow the AI Makeover site's wording or claim a film or sponsors", () => {
     expect(text()).not.toMatch(/ottley|navy seal|seven months of progress|we film|sponsor/i);
+    // Signature phrases from his About page. Steve's story is told in his own words.
+    expect(text()).not.toMatch(
+      /jetpack|gets me out of bed|new material|falling in love|cost you your life|strap|the spark/i,
+    );
   });
 });

@@ -5,6 +5,8 @@
  */
 export const APPLY_FORM_URL = "https://docs.google.com/forms/REPLACE-WITH-LIVE-FORM-URL";
 
+export const APPLY_LABEL = "Apply for a makeover";
+
 /**
  * The offer's name, kept in one place so a rename is a one-line change.
  * "AI Makeover" is also the name of Liam Ottley's company (AI Makeover LLC);
