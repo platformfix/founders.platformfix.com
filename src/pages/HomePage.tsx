@@ -89,9 +89,9 @@ export function HomePage() {
         </h1>
         <div className="text-lg text-cool-grey mb-6 space-y-1">
           <p>I spend seven days in your business.</p>
-          <p>You end the week knowing who has gone quiet and what they are worth.</p>
+          <p>The week is built around that one question, answered from your own data.</p>
           <p>
-            Everything sits in one place <span className="text-gold">you own.</span>
+            Everything goes into one place <span className="text-gold">you own.</span>
           </p>
           <p>After that, a monthly retainer keeps it healthy.</p>
         </div>
@@ -110,10 +110,10 @@ export function HomePage() {
       <section className="max-w-3xl mx-auto px-6 py-16 text-center border-y border-card-border">
         <h2 className="text-2xl font-bold mb-6">Where does your business live?</h2>
         <p className="text-cool-grey mb-6">
-          Do your leads sit in DMs, your promises in email, your context in spreadsheets?
+          Do your leads sit in DMs and your promises in email?
         </p>
         <div className="text-cool-grey space-y-1">
-          <p>If it is in your head, nobody else can pick it up.</p>
+          <p>If it lives in your head, nobody else can pick it up.</p>
           <p>So leads go cold, and you cannot see the pipeline.</p>
         </div>
       </section>
@@ -144,11 +144,10 @@ export function HomePage() {
       </section>
 
       <section className="max-w-3xl mx-auto px-6 py-16 text-center border-y border-card-border">
-        <h2 className="text-2xl font-bold mb-6">What you own</h2>
+        <h2 className="text-2xl font-bold mb-6">What you own after day seven</h2>
         <div className="text-cool-grey space-y-1 mb-6">
-          <p>Your data and your code sit in accounts in your name.</p>
-          <p>A record of every piece of work done on it.</p>
-          <p>An admin screen that shows who did what.</p>
+          <p>Your data and code sit in accounts in your name.</p>
+          <p>Every piece of work is recorded. An admin screen shows who did what.</p>
         </div>
         <div className="text-cool-grey space-y-1">
           <p>AI vendors sell you their platform.</p>

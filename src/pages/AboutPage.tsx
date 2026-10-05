@@ -20,7 +20,6 @@ export function AboutPage() {
       <section className="max-w-3xl mx-auto px-6 py-16 text-center">
         <div className="text-cool-grey space-y-1">
           <p>The average audit recovers about £276,000 a year for an engineering team.</p>
-          <p>This is the same discipline, pointed at one founder&apos;s business.</p>
         </div>
       </section>
 

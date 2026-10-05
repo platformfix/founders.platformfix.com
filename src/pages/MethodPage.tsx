@@ -1,7 +1,7 @@
 import { ApplyLink } from "../components/ApplyLink";
 
 const DAYS = [
-  ["Day 1. Audit.", "We map where every lead, promise and conversation lives today."],
+  ["Day 1. Audit.", "We map where every lead and promise lives today."],
   ["Day 2. Decide.", "We choose the first problem to fix. We write down where it stands today."],
   ["Day 3. One place.", "Your data moves into one database in your own account."],
   ["Day 4. The record.", "Every piece of work done on it gets logged. You get an admin screen to see it."],
