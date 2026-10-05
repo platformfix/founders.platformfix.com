@@ -1,36 +1,22 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ApplyLink } from "../components/ApplyLink";
+import { OFFER_NAME } from "../lib/apply";
 
 const FAQS = [
   {
-    question: "What exactly do you build?",
-    answer:
-      "Whatever produces the biggest result for your specific business: a centralised system for your data, a first automation that removes a repeated manual task, or a working AI agent. We scope it during Identify, then build it during Develop.",
-  },
-  {
-    question: "How is this different from hiring a developer or an agency?",
-    answer:
-      "We bring platform-engineering discipline, the same reliability and security standards used at enterprise scale, to a build that's usually vibe-coded or half-finished. You get one person who scopes, builds, and stays until it's adopted.",
-  },
-  {
     question: "What does it cost?",
     answer:
-      "It depends on scope. Tell us what you're working on on the work-with-us form and we'll come back with a fixed project cost, not an hourly guess.",
+      "I do not publish prices. I ask what the result is worth to you first. Then I give you three options.",
   },
   {
-    question: "How fast can we start?",
-    answer:
-      "We start with a short call to understand where your time and money are actually leaking, usually within a week of you reaching out.",
+    question: "Do I need a technical background?",
+    answer: "It runs from a terminal. I do the building. I am testing how much of it you ever open.",
   },
   {
-    question: "Do I need any technical background?",
-    answer: "No. That's the point of hiring us. You know your business; we handle the engineering.",
-  },
-  {
-    question: "Who is this for?",
-    answer:
-      "Founders and small teams who don't have an in-house developer or AI team, and don't want to hire one just to get started.",
+    question: "What happens after I apply?",
+    answer: "I read your answers. If it fits, we book a short call.",
   },
 ];
 
@@ -47,24 +33,17 @@ const FAQ_SCHEMA = {
   })),
 };
 
-const PHASES = [
+const BLOCKS = [
   {
-    id: "identify",
-    name: "Identify",
-    copy:
-      "We map where time and money are actually leaking, then narrow to the handful of opportunities worth building.",
+    id: "audit",
+    name: "Days 1 and 2. Audit and decide.",
+    copy: "We map where your business lives. We pick the first problem and measure it.",
   },
   {
-    id: "develop",
-    name: "Develop",
+    id: "build",
+    name: "Days 3 to 7. Build and hand over.",
     copy:
-      "We build directly into the tools you already use, engineered to hold up under real traffic.",
-  },
-  {
-    id: "adopt",
-    name: "Adopt",
-    copy:
-      "We stay until the new system is simply how your team works, day to day.",
+      "Your data moves into one database you own. I build the first automation to find the leads that have gone quiet. Your team learns to run it.",
   },
 ];
 
@@ -104,39 +83,47 @@ export function HomePage() {
   return (
     <>
       <section className="max-w-4xl mx-auto px-6 pt-24 pb-16 text-center">
-        <p className="text-sm uppercase tracking-widest text-gold mb-6">Platform Fix for Founders</p>
+        <p className="text-sm uppercase tracking-widest text-gold mb-6">{OFFER_NAME} by Platform Fix</p>
         <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-          You've bought the AI tools. Read the case studies. Sat through the demos.
+          Who have you gone quiet on, and what is it worth?
         </h1>
-        <p className="text-lg text-cool-grey mb-10">
-          But months later, the tools sit unused, the pilots never scaled, and nobody can
-          say what changed. You don't need another tool. You need someone to build the
-          <span className="text-gold"> right thing</span> and make it stick.
-        </p>
-        <Link
-          to="/work-with-us"
-          className="inline-flex items-center justify-center gap-2 rounded-md bg-gold px-6 py-3 font-medium text-navy hover:opacity-90"
-        >
-          Get in touch
-        </Link>
+        <div className="text-lg text-cool-grey mb-6 space-y-1">
+          <p>I spend seven days in your business.</p>
+          <p>You end the week knowing who has gone quiet and what they are worth.</p>
+          <p>
+            Everything sits in one place <span className="text-gold">you own.</span>
+          </p>
+          <p>After that, a monthly retainer keeps it healthy.</p>
+        </div>
+        <div className="text-cool-grey mb-10 space-y-1">
+          <p>For founders with a team of two to five.</p>
+          <p>If the business only works because it lives in your head, this is for you.</p>
+        </div>
+        <ApplyLink />
+        <div className="text-sm text-cool-grey mt-6 space-y-1">
+          <p>Applying costs nothing and commits you to nothing.</p>
+          <p>I am choosing three founders to start with.</p>
+          <p>I have run fifty-plus platform audits.</p>
+        </div>
       </section>
 
       <section className="max-w-3xl mx-auto px-6 py-16 text-center border-y border-card-border">
-        <h2 className="text-2xl font-bold mb-4">Why Platform Fix</h2>
-        <p className="text-cool-grey">
-          Platform Fix is run by Steve Wade: fifteen years in production infrastructure,
-          fifty-plus platform transformations from Series B to FTSE 250, former Flux
-          maintainer. The average audit recovers about £276,000 a year, just by deleting
-          what nobody needed.
+        <h2 className="text-2xl font-bold mb-6">Where does your business live?</h2>
+        <p className="text-cool-grey mb-6">
+          Do your leads sit in DMs, your promises in email, your context in spreadsheets?
         </p>
+        <div className="text-cool-grey space-y-1">
+          <p>If it is in your head, nobody else can pick it up.</p>
+          <p>So leads go cold, and you cannot see the pipeline.</p>
+        </div>
       </section>
 
-      <section className="max-w-5xl mx-auto px-6 py-20">
-        <h2 className="text-2xl font-bold text-center mb-12">Our work has three parts</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {PHASES.map((phase, i) => (
+      <section className="max-w-4xl mx-auto px-6 py-20">
+        <h2 className="text-2xl font-bold text-center mb-12">Seven days at your offices</h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          {BLOCKS.map((block, i) => (
             <motion.div
-              key={phase.id}
+              key={block.id}
               className="rounded-lg border border-card-border bg-card-slate p-6"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -144,19 +131,45 @@ export function HomePage() {
               transition={{ duration: 0.4, delay: i * 0.1 }}
               whileHover={{ y: -4 }}
             >
-              <span className="text-gold font-bold text-sm">{String(i + 1).padStart(2, "0")}</span>
-              <h3 className="text-xl font-bold mt-2 mb-3">{phase.name}</h3>
-              <p className="text-cool-grey text-sm mb-4">{phase.copy}</p>
-              <Link to={`/services#${phase.id}`} className="text-gold text-sm hover:underline">
-                View service →
-              </Link>
+              <h3 className="text-xl font-bold mb-3">{block.name}</h3>
+              <p className="text-cool-grey text-sm">{block.copy}</p>
             </motion.div>
           ))}
         </div>
+        <p className="text-center mt-8">
+          <Link to="/method" className="text-gold hover:underline">
+            See the day-by-day →
+          </Link>
+        </p>
       </section>
 
-      <section className="max-w-3xl mx-auto px-6 py-20">
-        <h2 className="text-2xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+      <section className="max-w-3xl mx-auto px-6 py-16 text-center border-y border-card-border">
+        <h2 className="text-2xl font-bold mb-6">What you own</h2>
+        <div className="text-cool-grey space-y-1 mb-6">
+          <p>Your data and your code sit in accounts in your name.</p>
+          <p>A record of every piece of work done on it.</p>
+          <p>An admin screen that shows who did what.</p>
+        </div>
+        <div className="text-cool-grey space-y-1">
+          <p>AI vendors sell you their platform.</p>
+          <p>I diagnose first. Then I install one that is yours.</p>
+        </div>
+      </section>
+
+      <section className="max-w-3xl mx-auto px-6 py-16 text-center">
+        <h2 className="text-2xl font-bold mb-6">What I cannot tell you yet</h2>
+        <div className="text-cool-grey space-y-1">
+          <p>I have no founder case studies.</p>
+          <p>You would be one of the first three.</p>
+          <p>The platform is still being built.</p>
+          <p>I cannot give you a start date yet.</p>
+          <p>I build each of the first three myself.</p>
+          <p>I will not quote a founder result until one is real.</p>
+        </div>
+      </section>
+
+      <section className="max-w-3xl mx-auto px-6 py-20 border-t border-card-border">
+        <h2 className="text-2xl font-bold text-center mb-12">Questions</h2>
         <div className="space-y-6">
           {FAQS.map((faq, i) => (
             <motion.div
@@ -177,14 +190,8 @@ export function HomePage() {
       </section>
 
       <section className="max-w-3xl mx-auto px-6 py-20 text-center">
-        <h2 className="text-2xl font-bold mb-4">Ready to talk?</h2>
-        <p className="text-cool-grey mb-8">Tell us what you're working on and where it's stuck.</p>
-        <Link
-          to="/work-with-us"
-          className="inline-flex items-center justify-center gap-2 rounded-md bg-gold px-6 py-3 font-medium text-navy hover:opacity-90"
-        >
-          Get in touch
-        </Link>
+        <h2 className="text-2xl font-bold mb-8">Tell me about your business.</h2>
+        <ApplyLink />
       </section>
     </>
   );
