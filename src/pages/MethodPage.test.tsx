@@ -4,12 +4,13 @@ import { describe, expect, it } from "vitest";
 import { MethodPage } from "./MethodPage";
 
 describe("MethodPage", () => {
-  it("lists all seven days in order", () => {
+  it("lists the seven steps in order, with no day allocated to any of them", () => {
     render(<MethodPage />, { wrapper: BrowserRouter });
     const headings = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent ?? "");
-    const days = headings.filter((h) => /^Day \d\./.test(h));
-    expect(days).toHaveLength(7);
-    days.forEach((d, i) => expect(d.startsWith(`Day ${i + 1}.`)).toBe(true));
+    const steps = headings.filter((h) => /^Step \d\./.test(h));
+    expect(steps).toHaveLength(7);
+    steps.forEach((d, i) => expect(d.startsWith(`Step ${i + 1}.`)).toBe(true));
+    expect(headings.some((h) => /^Day \d/.test(h))).toBe(false);
   });
 
   it("frames the week as a plan and says the platform is still being built", () => {
@@ -52,12 +53,12 @@ describe("MethodPage", () => {
 });
 
 describe("MethodPage visuals", () => {
-  it("shows one example visual per day, each labelled as an example", () => {
+  it("shows one example visual per step, each labelled as an example", () => {
     render(<MethodPage />, { wrapper: BrowserRouter });
     expect(screen.getAllByText(/example\. not real data\./i)).toHaveLength(7);
   });
 
-  it("gives the day-two plot an accessible description", () => {
+  it("gives the step-two plot an accessible description", () => {
     render(<MethodPage />, { wrapper: BrowserRouter });
     expect(screen.getByRole("img", { name: /plot of effort against value/i })).toBeInTheDocument();
   });

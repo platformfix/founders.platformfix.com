@@ -17,7 +17,7 @@ function Frame({ children }: { children: ReactNode }) {
 
 const SOURCES = ["DMs", "Inbox", "Calls", "Spreadsheets"];
 
-/** Day 1: the places a business lives today. */
+/** Step 1: the places a business lives today. */
 export function SourcesVisual() {
   return (
     <Frame>
@@ -34,7 +34,7 @@ export function SourcesVisual() {
   );
 }
 
-/** Day 2: what the audit produces. Effort across, value up. The first problem is gold. */
+/** Step 2: what the audit produces. Effort across, value up. The first problem is gold. */
 export function PriorityPlot() {
   return (
     <Frame>
@@ -70,7 +70,7 @@ export function PriorityPlot() {
   );
 }
 
-/** Day 3: the scattered places flow into one database. */
+/** Step 3: the scattered places flow into one database. */
 export function OneDatabaseVisual() {
   const ys = [14, 54, 94, 134];
   return (
@@ -102,7 +102,7 @@ const LOG: [string, string][] = [
   ["You", "Sent it"],
 ];
 
-/** Day 4: the record of work, as the admin screen shows it. */
+/** Step 4: the record of work, as the admin screen shows it. */
 export function RecordVisual() {
   return (
     <Frame>
@@ -129,7 +129,7 @@ function Bars({ widths }: { widths: string[] }) {
   );
 }
 
-/** Day 5: quiet leads found, follow-up drafted. */
+/** Step 5: quiet leads found, follow-up drafted. */
 export function QuietLeadsVisual() {
   return (
     <Frame>
@@ -143,7 +143,7 @@ export function QuietLeadsVisual() {
   );
 }
 
-/** Day 6: the question, answered from the founder's own data. */
+/** Step 6: the question, answered from the founder's own data. */
 export function AskVisual() {
   return (
     <Frame>
@@ -160,7 +160,7 @@ export function AskVisual() {
 
 const CHECKS = ["Is it up to date?", "Are the backups tested?", "What has gone stale?"];
 
-/** Day 7: what the founder checks each month. */
+/** Step 7: what the founder checks each month. */
 export function MonthlyCheckVisual() {
   return (
     <Frame>

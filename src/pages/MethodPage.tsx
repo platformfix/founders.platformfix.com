@@ -10,7 +10,7 @@ import {
   SourcesVisual,
 } from "../components/MethodVisuals";
 
-const DAYS = [
+const STEPS = [
   { n: 1, title: "Audit.", copy: "We map where every lead and promise lives today.", Visual: SourcesVisual },
   { n: 2, title: "Decide.", copy: "We choose the first problem to fix. We write down where it stands today.", Visual: PriorityPlot },
   { n: 3, title: "One place.", copy: "Your data moves into one database in your own account.", Visual: OneDatabaseVisual },
@@ -57,6 +57,7 @@ export function MethodPage() {
         <div className="text-cool-grey space-y-1">
           <p>This is the plan for the week. The platform is still being built.</p>
           <p>I come to your offices.</p>
+          <p>The steps run in this order. Some are quick. Some take more of the week.</p>
         </div>
       </section>
 
@@ -70,11 +71,11 @@ export function MethodPage() {
       </section>
 
       <section className="max-w-5xl mx-auto px-6 py-16 space-y-24">
-        {DAYS.map(({ n, title, copy, Visual }, i) => (
+        {STEPS.map(({ n, title, copy, Visual }, i) => (
           <div key={n} className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
             <div className={i % 2 ? "md:order-2" : ""}>
               <h2 className="mb-4 text-3xl font-bold">
-                <span className="text-gold">Day {n}.</span> {title}
+                <span className="text-gold">Step {n}.</span> {title}
               </h2>
               <p className="text-lg text-cool-grey">{copy}</p>
             </div>
@@ -91,7 +92,7 @@ export function MethodPage() {
       </section>
 
       <section className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <h2 className="text-2xl font-bold mb-6">What you own after day seven</h2>
+        <h2 className="text-2xl font-bold mb-6">What you own at the end</h2>
         <div className="text-cool-grey space-y-1 mb-6">
           <p>Your data and code sit in accounts in your name.</p>
           <p>Every piece of work is recorded. An admin screen shows who did what.</p>
