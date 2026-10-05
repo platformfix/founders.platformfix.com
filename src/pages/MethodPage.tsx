@@ -23,7 +23,7 @@ const FAQS = [
   },
   {
     question: "What happens after I apply?",
-    answer: "I read your answers. If it fits, we book a short call.",
+    answer: "If your answers fit, we book a short call.",
   },
 ];
 
@@ -89,9 +89,7 @@ export function MethodPage() {
       <section className="max-w-3xl mx-auto px-6 py-16 text-center border-y border-card-border">
         <h2 className="text-2xl font-bold mb-6">What I cannot tell you yet</h2>
         <div className="text-cool-grey space-y-1">
-          <p>I have no founder case studies.</p>
           <p>You would be one of the first three.</p>
-          <p>The platform is still being built.</p>
           <p>I cannot give you a start date yet.</p>
           <p>I build each of the first three myself.</p>
           <p>I will not quote a founder result until one is real.</p>

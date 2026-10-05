@@ -15,7 +15,7 @@ describe("MethodPage", () => {
   it("frames the week as a plan and says the platform is still being built", () => {
     render(<MethodPage />, { wrapper: BrowserRouter });
     expect(screen.getByText(/this is the plan for the week/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/the platform is still being built/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText(/the platform is still being built/i)).toBeInTheDocument();
   });
 
   it("describes the retainer without a price", () => {
@@ -26,7 +26,7 @@ describe("MethodPage", () => {
   it("carries the honest 'cannot tell you yet' block and who it says no to", () => {
     render(<MethodPage />, { wrapper: BrowserRouter });
     expect(screen.getByRole("heading", { name: /what i cannot tell you yet/i })).toBeInTheDocument();
-    expect(screen.getByText(/i have no founder case studies\./i)).toBeInTheDocument();
+    expect(screen.getByText(/you would be one of the first three/i)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /who i say no to/i })).toBeInTheDocument();
   });
 
