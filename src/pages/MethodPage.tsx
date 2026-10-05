@@ -1,4 +1,5 @@
 import { ApplyLink } from "../components/ApplyLink";
+import { FaqItem } from "../components/FaqItem";
 
 const DAYS = [
   ["Day 1. Audit.", "We map where every lead and promise lives today."],
@@ -9,6 +10,35 @@ const DAYS = [
   ["Day 6. The assistant.", "An assistant works from your data. Your team learns to ask it."],
   ["Day 7. Handover.", "You run it. I show you what to check each month."],
 ];
+
+const FAQS = [
+  {
+    question: "What does it cost?",
+    answer:
+      "I do not publish prices. I ask what the result is worth to you first. Then I give you three options.",
+  },
+  {
+    question: "Do I need a technical background?",
+    answer: "It runs from a terminal. I do the building. I am testing how much of it you ever open.",
+  },
+  {
+    question: "What happens after I apply?",
+    answer: "I read your answers. If it fits, we book a short call.",
+  },
+];
+
+const FAQ_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
 
 export function MethodPage() {
   return (
@@ -21,7 +51,16 @@ export function MethodPage() {
         </div>
       </section>
 
-      <section className="max-w-3xl mx-auto px-6 pb-16 space-y-6">
+      <section className="max-w-3xl mx-auto px-6 py-12 text-center border-y border-card-border">
+        <h2 className="text-2xl font-bold mb-6">Where does your business live?</h2>
+        <p className="text-cool-grey mb-6">Do your leads sit in DMs and your promises in email?</p>
+        <div className="text-cool-grey space-y-1">
+          <p>If it lives in your head, nobody else can pick it up.</p>
+          <p>So leads go cold, and you cannot see the pipeline.</p>
+        </div>
+      </section>
+
+      <section className="max-w-3xl mx-auto px-6 py-16 space-y-6">
         {DAYS.map(([name, copy]) => (
           <div key={name} className="rounded-lg border border-card-border bg-card-slate p-6">
             <h2 className="text-xl font-bold mb-2">{name}</h2>
@@ -36,11 +75,48 @@ export function MethodPage() {
       </section>
 
       <section className="max-w-3xl mx-auto px-6 py-16 text-center">
+        <h2 className="text-2xl font-bold mb-6">What you own after day seven</h2>
+        <div className="text-cool-grey space-y-1 mb-6">
+          <p>Your data and code sit in accounts in your name.</p>
+          <p>Every piece of work is recorded. An admin screen shows who did what.</p>
+        </div>
+        <div className="text-cool-grey space-y-1">
+          <p>AI vendors sell you their platform.</p>
+          <p>I diagnose first. Then I install one that is yours.</p>
+        </div>
+      </section>
+
+      <section className="max-w-3xl mx-auto px-6 py-16 text-center border-y border-card-border">
+        <h2 className="text-2xl font-bold mb-6">What I cannot tell you yet</h2>
+        <div className="text-cool-grey space-y-1">
+          <p>I have no founder case studies.</p>
+          <p>You would be one of the first three.</p>
+          <p>The platform is still being built.</p>
+          <p>I cannot give you a start date yet.</p>
+          <p>I build each of the first three myself.</p>
+          <p>I will not quote a founder result until one is real.</p>
+        </div>
+      </section>
+
+      <section className="max-w-3xl mx-auto px-6 py-16 text-center">
         <h2 className="text-2xl font-bold mb-6">Who I say no to</h2>
         <div className="text-cool-grey space-y-1">
           <p>Anyone who will not run the first step themselves.</p>
           <p>Anyone who cannot say who decides.</p>
         </div>
+      </section>
+
+      <section className="max-w-3xl mx-auto px-6 pb-16 border-t border-card-border pt-16">
+        <h2 className="text-2xl font-bold text-center mb-12">Questions</h2>
+        <div className="space-y-6">
+          {FAQS.map((faq) => (
+            <FaqItem key={faq.question} question={faq.question} answer={faq.answer} />
+          ))}
+        </div>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA) }}
+        />
       </section>
 
       <section className="max-w-3xl mx-auto px-6 pb-24 text-center">
