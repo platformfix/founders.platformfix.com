@@ -1,6 +1,8 @@
 # Founders
 
-Landing microsite for Platform Fix's AI-native founder offer, hosted at [founders.platformfix.com](https://founders.platformfix.com). Structurally modeled on [morningside.ai](https://www.morningside.ai)'s home, `/services`, and `/work-with-us` pages, rebranded to Platform Fix's own design system. The offer's name, price, and niche are still open — see `platformfix/second-brain`'s `plans/2026-09-13-ai-native-founder-offer-design.md` — so this site ships with placeholder copy and exists to gauge interest via the work-with-us form.
+Landing microsite for the AI Makeover offer from Platform Fix: a seven-day on-site makeover for a founder-led business, then a monthly retainer. Hosted at [founders.platformfix.com](https://founders.platformfix.com). Three pages (`/`, `/method`, `/about`) and one call to action, an application that opens a Google Form in a new tab (`src/lib/apply.ts`). The offer, its open decisions and every conflict with the business plan are in `platformfix/second-brain`, `plans/2026-10-06-founders-ai-makeover-offer-amendment.md`.
+
+Not built yet: the Google Form itself (`APPLY_FORM_URL` is a placeholder and `apply.test.ts` fails until it is a real link). The Worker's `/api/inquiry` endpoint and Kit integration below are no longer called by the front end and are candidates for removal.
 
 ## Architecture
 
